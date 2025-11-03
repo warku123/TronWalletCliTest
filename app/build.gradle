@@ -18,3 +18,34 @@ application {
     // Define the main class for the application.
     mainClass = 'org.example.app.App'
 }
+
+// TRON 测试任务
+tasks.register('testConfig', Test) {
+    description = '检查 TRON 测试配置'
+    group = 'tron'
+    include '**/TronTransactionTest.class'
+    include '**/*testPrintConfiguration*'
+    useJUnitPlatform {
+        includeTags 'config'
+    }
+}
+
+tasks.register('testTransactionCreate', Test) {
+    description = '测试创建 TRON 交易（不广播）'
+    group = 'tron'
+    include '**/TronTransactionTest.class'
+    useJUnitPlatform()
+    filter {
+        includeTestsMatching "*testCreateTransactionOnly"
+    }
+}
+
+tasks.register('testTransactionFull', Test) {
+    description = '测试完整的 TRON 交易流程'
+    group = 'tron'
+    include '**/TronTransactionTest.class'
+    useJUnitPlatform()
+    filter {
+        includeTestsMatching "*testCompleteTransactionFlow"
+    }
+}
